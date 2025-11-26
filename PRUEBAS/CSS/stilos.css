@@ -29,3 +29,16 @@ footer p{
     text-align: center;
     margin: 15px 10px;
 }
+/*Para los botones*/
+#btnAceptar{
+    color: black;
+    background-color: red;
+    width: 70px;
+    height: 20px;
+    transition: 0.5s ease;
+}
+#btnAceptar:hover{
+    color: white;
+    background-color: black;
+    border: 1px solid red;
+}
