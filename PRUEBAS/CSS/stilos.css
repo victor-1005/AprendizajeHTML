@@ -15,6 +15,11 @@ header{
     text-align: center;
     margin: 2%;
 }
+.Contenedor section ul{
+    color: rgb(18, 255, 223);
+    text-align: left;
+    list-style: none;
+}
 footer{
     background-color: darkcyan;
     color: chartreuse;
@@ -41,4 +46,25 @@ footer p{
     color: white;
     background-color: black;
     border: 1px solid red;
+}
+#btnIniciarSesion{
+    width: 100px;
+    height: 40px;
+    border-radius: 30px;
+    color: rgb(0, 0, 0);
+    background-color: yellow;
+    transition: 0.5s ease;
+}
+#btnIniciarSesion:hover{
+    background-color: chartreuse;
+    color: rgb(255, 255, 255);
+    box-shadow: 10px 10px 10px green;
+    transform: scale(1.1);
+}
+/*SECTIONS*/
+section{
+    padding: 10%;
+    margin: 2%;
+    border: 2px solid white;
+    box-shadow: 10px 10px 10px white;
 }
