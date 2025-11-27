@@ -17,22 +17,38 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
     $edad=$_POST['Edad'];
     $email=$_POST['Email'];
     $telefono=$_POST['NumTelefono'];
+    $usuario=$_POST['usuario'];
+    $contra=$_POST['contra'];
+
+    //encriptamos la contraseña
+    $contraEncriptada= password_hash($contra, PASSWORD_DEFAULT);
 
     //Creamos una validación rapida
-    if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono)){
+    if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono) &&!empty($usuario)&&!empty($contra)){
         //si no esta vacio insertamos la bd
         
-        //Creamos la query
+        //Creamos la query 1
         $sql="INSERT INTO usuarios (nombre, edad, email, telefono)
          VALUES('$nombre', '$edad', '$email', '$telefono')";
 
-        //Ejecutamos la query
+        //Ejecutamos la query 1
         if($conexion->query($sql)===TRUE){
-            //Para que el js funcione
+            
+            //Recuperamos el id del nuevo usuario
+            $idUsuario=$conexion->insert_id;//Viene de ley por MySQL
+
+            //Creamos la otra query para guardar los datos en la tabla rol
+            $queriRol="INSERT INTO rol (idUsuario, usuario, contra,rol)
+            VALUES ('$idUsuario','$usuario','$contraEncriptada','consumidor')";
+            
+            //Ejecutamos la query 2
+            if($conexion->query($queriRol)===TRUE){
+                //Para que el js funcione
             header("Location: crearCuenta.php?status=ok");
             exit;
             //Para que se imprima el p
             $mensaje=" Cuenta Creada con éxito.";
+            }
         }else{
             //Para que funcione el js
             header("Location: crearCuenta.php?status=error");
@@ -79,9 +95,21 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
 
             <label for="NumTelefono">Ingresa tu numero de telefono</label>
             <input type="text" name="NumTelefono" id="txtNumTelefono" placeholder="EJemplo: 71309080" required>
+
+            <label for="usuario">Crea tu usuario</label>
+            <input type="text" name="usuario" placeholder="Ejemplo Victor005" require>
+
+            <label for="contra">Crea tu contraseña</label>
+            <input type="text" name="contra" placeholder="Ejemplo: 1234" require>
             <button type="submit" id="btnEnviar">Ingresar</button>
         </form>
     </section>
+    <article>
+        <p>
+            ¿Ya tienes una cuenta de usuario?
+            <a href="./login.php">Iniciar sesión</a>
+        </p>
+    </article>
     <footer>
         <p>
             &copy;LEPIOLA.inc. 

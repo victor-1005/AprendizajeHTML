@@ -37,7 +37,7 @@ if (btnAceptar) {
     btnAceptar.addEventListener("click", saludar);
 }
 
-// Para el botón de esta página:
+// Para el botón de esta página: YA NO LO NECESITAMOS COMO ERA DE PRUEBAS XD
 //const btnEnviar = document.getElementById("btnEnviar");
 //if (btnEnviar) {
   //  btnEnviar.addEventListener("click", guardarPHP);

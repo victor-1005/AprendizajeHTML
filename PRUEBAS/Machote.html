@@ -20,6 +20,34 @@
         <input type="text" name="NumTelefono" id="txtNumTelefono" placeholder="EJemplo: 71309080">
         <button type="button" id="btnEnviar" onclick="guardarPHP()" >Ingresar</button>
     </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Email</th>
+                <th>Telefono</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <form action="./login.php" method="POST">
+        <label for="nombre">Ingrese su nombre de usuario</label>
+        <input type="text" name="nombre" placeholder="Ejemplo victor manuel" required>
+        <label for="contra">Ingresa tu contraseña</label>
+        <input type="text"name="contra" placeholder="1234">
+        <button type="submit">Ingresar</button>
+    </form>
+    <article>
+        <p>
+            ¿No tienes una cuenta de usuario?
+            <a href="./crearCuenta.php">Crear cuenta</a>
+        </p>
+    </article>
     <script src="./js/eventos.js"></script>
     <a href="./index.html">Regresar a pagina principal</a>
 </body>
