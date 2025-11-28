@@ -45,11 +45,11 @@ if (btnAceptar) {
 
 
 //FUNCION DE ALERTA CUANDO SE GUARDE LA INFO
-// Verifica si la URL contiene ?status=ok o ?status=error
+// Verifica si la URL contiene ?msg=ok o ?msg=error
 const params = new URLSearchParams(window.location.search);
-const status = params.get("status");
+const msg = params.get("msg");
 
-if (status === "ok") {
+if (msg === "ok") {
     Swal.fire({
         title: "¡Registro exitoso!",
         html: "Los datos fueron guardados correctamente.",
@@ -62,12 +62,62 @@ if (status === "ok") {
     });
 }
 
-if (status === "error") {
+if (msg === "error") {
     Swal.fire({
         title: "Ocurrió un error",
         html: "No se pudieron guardar los datos.",
         icon: "error",
     }).then(() => {
         window.history.replaceState({}, document.title, "crearCuenta.php");
+    });
+}
+//Cierre de sesión
+const param = new URLSearchParams(window.location.search);
+const logout = param.get("logout");
+if(logout=="ok"){
+    Swal.fire({
+        icon:"info",
+        title:"Sesión cerrada",
+        text:"Has cerradao sesión correctamente",
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        window.history.replaceState({}, document.title, "login.php");
+    });
+}
+//Contraseña incorrecta
+const paramContra = new URLSearchParams(window.location.search);//Parametros de ley
+const msgContra = paramContra.get("error");//esto es lo que definimos arriba del php  cuando colocamos header
+if(msgContra=="pass"){
+    Swal.fire({
+        icon:"error",
+        title:"Contraseña Incorrecta",
+        text:"Ingresa la contraseña correcta",
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        window.history.replaceState({}, document.title, "login.php");
+    });
+}
+if(msgContra=="usuario"){
+    Swal.fire({
+        icon:"warning",
+        title:"Usuario no encontrado",
+        text:"Usuario no registrado en el sistema",
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        window.history.replaceState({}, document.title, "login.php");
+    });
+}
+if(msgContra=="rol"){
+     Swal.fire({
+        icon:"error",
+        title:"ERROR",
+        text:"Error desconocido",
+        timer: 1500,
+        showConfirmButton: false
+    }).then(() => {
+        window.history.replaceState({}, document.title, "login.php");
     });
 }

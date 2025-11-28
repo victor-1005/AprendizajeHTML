@@ -44,21 +44,21 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
             //Ejecutamos la query 2
             if($conexion->query($queriRol)===TRUE){
                 //Para que el js funcione
-            header("Location: crearCuenta.php?status=ok");
+            header("Location: crearCuenta.php?msg=ok");
             exit;
             //Para que se imprima el p
             $mensaje=" Cuenta Creada con éxito.";
             }
         }else{
             //Para que funcione el js
-            header("Location: crearCuenta.php?status=error");
+            header("Location: crearCuenta.php?msg=error");
             exit;
             //Para que se imprima el p
             $mensaje="Error al guardar: ".$conexion->error;
         }
     }else{#if de que todo este lleno
         // También podrías redirigir con otro tipo de error:
-        header("Location: crearCuenta.php?status=vacio");
+        header("Location: crearCuenta.php?msg=vacio");
         exit;
         //Para que se imprima el p
         $mensaje="Debes llenar todos los camos";
@@ -97,10 +97,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
             <input type="text" name="NumTelefono" id="txtNumTelefono" placeholder="EJemplo: 71309080" required>
 
             <label for="usuario">Crea tu usuario</label>
-            <input type="text" name="usuario" placeholder="Ejemplo Victor005" require>
+            <input type="text" name="usuario" placeholder="Ejemplo Victor005" required>
 
             <label for="contra">Crea tu contraseña</label>
-            <input type="text" name="contra" placeholder="Ejemplo: 1234" require>
+            <input type="text" name="contra" placeholder="Ejemplo: 1234" required>
             <button type="submit" id="btnEnviar">Ingresar</button>
         </form>
     </section>
