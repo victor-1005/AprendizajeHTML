@@ -26,19 +26,19 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
     //Creamos una validación rapida
     if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono) &&!empty($usuario)&&!empty($contra)){
         
-        //VALIDAMOS SI EL USUARIO EXISTE de manera segura,  la logica es buscar un usuario existente igual al que colocamos, si devuelve algo esta mal porque existe
+        //VALIDAMOS SI EL USUARIO EXISTE
         $queryRecuperarUsuario=$conexion->prepare("SELECT usuario FROM rol WHERE usuario=? LIMIT 1");
         $queryRecuperarUsuario->bind_param("s",$usuario);
         $queryRecuperarUsuario->execute();
         $resultado=$queryRecuperarUsuario->get_result();
 
-        if($resultado->num_rows!= 0){//Si devuelve un resultado esta duplicado
+        if($resultado->num_rows!= 0){
             header("Location: crearCuenta.php?msg=duplicado");
             exit;
         }
         //si no esta vacio insertamos la bd
         
-        //Creamos la query 1 segura. el ? se sustituye de manera secuencia, s = string, i = int
+        //Creamos la query 1
         $sql=$conexion->prepare("INSERT INTO usuarios (nombre, edad, email, telefono) 
         VALUES (?,?,?,?)");
         $sql->bind_param("siss",$nombre,$edad,$email,$telefono);

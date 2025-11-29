@@ -45,7 +45,7 @@ if (btnAceptar) {
 
 
 //FUNCION DE ALERTA CUANDO SE GUARDE LA INFO
-// Verifica si la URL contiene ?msg=ok o ?msg=error
+// Verifica si la URL contiene ?msg=ok o ?msg=error O ?msg=duplicado
 const params = new URLSearchParams(window.location.search);
 const msg = params.get("msg");
 
@@ -71,6 +71,17 @@ if (msg === "error") {
         window.history.replaceState({}, document.title, "crearCuenta.php");
     });
 }
+
+if (msg === "duplicado") {
+    Swal.fire({
+        title: "Usuario duplicado",
+        html: "Ingrese otro usuario, el que coloco ya existe",
+        icon: "warning",
+    }).then(() => {
+        window.history.replaceState({}, document.title, "crearCuenta.php");
+    });
+}
+
 //Cierre de sesión
 const param = new URLSearchParams(window.location.search);
 const logout = param.get("logout");
