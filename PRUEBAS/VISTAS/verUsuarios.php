@@ -2,6 +2,7 @@
 <?php
     //Inclimos la conexion a la bd
     include("../conexion.php");
+    //      CONSULTAS SIN PREPARE
     //Creamos la query para recupera datos normales
     $sql="SELECT * FROM usuarios";
     //Creamos la query parar recuperar el usuario de la tabla rol

@@ -8,7 +8,7 @@
         //Datos necesarios
         $usuario=$_POST['usuario'];
         $contra=$_POST['contra'];
-
+        //  CONSULTAS PREPARADAS
         //Creamos la consulta segura.
         //la "s" significa string y $usuario la info del usuario, el "bind_param" son parametros que se reemplazan el "?"
         $query=$conexion->prepare("SELECT * FROM rol WHERE usuario =? LIMIT 1");
@@ -46,12 +46,6 @@
             header("Location: VISTAS/admin/indexAdmin.php");
             exit;
         }
-
-        if ($datos['rol'] == "administrador") {
-            header("Location: VISTAS/admin/indexAdmin.php");
-            exit;
-        }
-
         // Rol desconocido
         header("Location: login.php?error=rol");
         exit;
