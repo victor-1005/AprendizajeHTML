@@ -78,6 +78,10 @@
             ¿No tienes una cuenta de usuario?
             <a href="./crearCuenta.php">Crear cuenta</a>
         </p>
+        <p>
+            ¿Ya tienes cuenta pero no usuario?
+            <a href="./crearContra.php">Crear Contraseña y Usuario</a>
+        </p>
     </article>
     <!--Para las alertas-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

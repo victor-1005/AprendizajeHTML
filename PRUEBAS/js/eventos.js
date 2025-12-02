@@ -173,3 +173,31 @@ if (msgAct === "vacio") {
         window.history.replaceState({}, document.title, "indexUsuario.php");
     });
 }
+
+//PARA CREAR USUARIOS Y CONTRASEÑAS
+const paramCrearContra= new URLSearchParams(Window.location.search);
+const msgCrearContra= paramCrearContra.get("msg");
+if (msgCrearContra === "contraOk") {
+    Swal.fire({
+        title: "¡Registro exitoso!",
+        html: "Los datos fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "crearContra.php");
+    });
+}
+if (msgCrearContra === "contraMal") {
+    Swal.fire({
+        title: "¡Ah ocurrido un error!",
+        html: "Los datos no fueron guardados correctamente.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "crearContra.php");
+    });
+}

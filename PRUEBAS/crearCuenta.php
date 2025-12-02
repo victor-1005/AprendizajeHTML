@@ -122,6 +122,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){//Para verificar si el usuario "Reinicio 
             ¿Ya tienes una cuenta de usuario?
             <a href="./login.php">Iniciar sesión</a>
         </p>
+        <p>
+            ¿Ya tienes cuenta pero no usuario?
+            <a href="./crearContra.php">Crear Contraseña y Usuario</a>
+        </p>
     </article>
     <footer>
         <p>
