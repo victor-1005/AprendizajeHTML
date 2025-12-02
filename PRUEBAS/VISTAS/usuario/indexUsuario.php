@@ -21,6 +21,31 @@ $resultado=$DatosUsuario->get_result();
 
 //    DE ESTA MANERA SE OBTIENE LOS VALORES EN FORMA DE ARRAY
 $datos=$resultado->fetch_assoc();
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    //Obtenemos los datos del form
+    $nombre=$_POST['Nombre'];
+    $edad=$_POST['Edad'];
+    $email=$_POST['Email'];
+    $telefono=$_POST['NumTelefono'];
+    //Creamos una validación rapida
+    if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono)){
+        //PARA ACTUALIZAR LA INFORMACIÓN DEL CLIENTE
+        $queryActualizarDatos=$conexion->prepare("UPDATE usuarios SET nombre=?, edad=?, email=?, telefono=? Where id=?");
+        $queryActualizarDatos->bind_param("sissi",$nombre,$edad,$email,$telefono,$idUsuario);
+        //Ejecutamos la query
+        if($queryActualizarDatos->execute()){
+            header("Location: indexUsuario.php?msg=actualizado");
+            exit;
+        }else{
+            header("Location: indexUsuario.php?msg=errorActualizar");
+            exit;
+        }
+    }else{
+        header("Location=indexUsuario.php?msg=vacio");
+        exit;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,8 +71,33 @@ $datos=$resultado->fetch_assoc();
                 <!--$datos=variable["Nombre de la columna de la BD"]-->
                 Su nombre es: <?= $datos["nombre"]?><br>
                 Su Edad es: <?= $datos["edad"] ?? "no registrada" ?><br>
-                Su correo es: <?= $datos["email"]?>
+                Su correo es: <?= $datos["email"]?><br>
+                Su telefono es <?= $datos["telefono"] ?>
+
             </p>
+        </section>
+        <section>
+            <h2>¿Desea cambiar algo de su información personal?</h2>
+            <form action="indexUsuario.php" method="POST" class="Formulario">
+                <label for="Nombre">ingresa tu nombre completo</label>
+                <input type="text" name="Nombre" id="txtNombres" placeholder="EJemplo: Victor Manuel" required>
+        
+                <label for="Edad">Ingresa tu edad</label>
+                <input type="text" name="Edad" id="txtEdades" placeholder="EJemplo: 20" required>
+
+                <label for="Email">Ingresa tu Correo</label>
+                <input type="text" name="Email" id="txtEmail" placeholder="EJemplo: vic@gmail.com" required>
+
+                <label for="NumTelefono">Ingresa tu numero de telefono</label>
+                <input type="text" name="NumTelefono" id="txtNumTelefono" placeholder="EJemplo: 71309080" required>
+
+                <!-- <label for="usuario">Crea tu usuario</label>
+                <input type="text" name="usuario" placeholder="Ejemplo Victor005" required>
+
+                <label for="contra">Crea tu contraseña</label> -->
+                <!-- <input type="text" name="contra" placeholder="Ejemplo: 1234" required> -->
+                <button type="submit" id="btnEnviar">Ingresar</button>
+            </form>
         </section>
     </div>
     <!--Para las alertas-->

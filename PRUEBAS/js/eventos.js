@@ -132,3 +132,44 @@ if(msgContra=="rol"){
         window.history.replaceState({}, document.title, "login.php");
     });
 }
+
+//PARA ACTUALIZAR INFORMACIÓN
+const paramAct = new URLSearchParams(window.location.search);
+const msgAct = paramAct.get("msg");
+
+if (msgAct === "actualizado") {
+    Swal.fire({
+        title: "¡Registro Actualizado!",
+        html: "Los datos fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "indexUsuario.php");
+    });
+}
+if (msgAct === "errorActualizar") {
+    Swal.fire({
+        title: "¡Ah ocurrido un error!",
+        html: "Los datos no fueron guardados correctamente.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "rgba(214, 48, 48, 1)"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "indexUsuario.php");
+    });
+}
+if (msgAct === "vacio") {
+    Swal.fire({
+        title: "¡ADVERTENCIA!",
+        html: "No puede dejar datos vacios",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "yellow)"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "indexUsuario.php");
+    });
+}
