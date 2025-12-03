@@ -6,7 +6,7 @@
     //Creamos la query para recupera datos normales
     $sql="SELECT * FROM usuarios";
     //Creamos la query parar recuperar el usuario de la tabla rol
-    $sqlInnerJoin="SELECT * from usuarios inner join rol on usuarios.id=rol.idUsuario;";
+    $sqlInnerJoin="SELECT * from usuarios inner join rol on usuarios.id=rol.idUsuario ORDER BY usuarios.id ASC";
     //Ejecutamos las consultas
     $resultado=$conexion->query($sqlInnerJoin);
     $res=$conexion->query($sql);

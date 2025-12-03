@@ -21,16 +21,36 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         header("Location: crearContra.php?msg=noEncontrado");
         exit;
     }else{//Si encuentra el numero de vuelto es mayor a 0 entonces el usuario existe.
-        //Preparamos la otra consulta para insertar el usuario
-        $queryCrearUsuario=$conexion->prepare("INSERT INTO rol (idUsuario, usuario, contra, rol)
-        VALUES (?,?,?,'consumidor')");
-        $queryCrearUsuario->bind_param("iss",$idUsuario,$usuario,$contraEncriptada);
-        //Ejecutamos la query
-        if($queryCrearUsuario->execute()){
-            header("Location: crearContra.php?msg=contraOk");
-            exit;
-        }else{
-            header("Location: crearContra.php?msg=contraMal");
+        //Preparamos otra consulta para buscar si el id ya esta registrado en la bd con rol
+        $buscarRol=$conexion->prepare("SELECT * from rol WHERE idUsuario=? LIMIT 1");
+        $buscarRol->bind_param("i",$idUsuario);
+        $buscarRol->execute();
+        $resultadoRol=$buscarRol->get_result();
+        if($resultadoRol->num_rows==0){
+            //Preparamos otra consulta para evitar que el usuario ya tenga cuenta
+            $queryBuscarUsuario=$conexion->prepare(("SELECT * from rol WHERE usuario=? LIMIT 1"));
+            $queryBuscarUsuario->bind_param("s",$usuario);
+            $queryBuscarUsuario->execute();
+            $resultado2=$queryBuscarUsuario->get_result();
+            if($resultado2->num_rows==0){
+                //Preparamos la otra consulta para insertar el usuario
+                $queryCrearUsuario=$conexion->prepare("INSERT INTO rol (idUsuario, usuario, contra, rol)
+                VALUES (?,?,?,'consumidor')");
+                $queryCrearUsuario->bind_param("iss",$idUsuario,$usuario,$contraEncriptada);
+                //Ejecutamos la query
+                if($queryCrearUsuario->execute()){
+                    header("Location: crearContra.php?msg=contraOk");
+                    exit;
+                }else{
+                    header("Location: crearContra.php?msg=contraMal");
+                    exit;
+                }
+            }else{
+                header("Location: crearContra.php?msg=yaTieneUsuario");
+                exit;
+            }
+        }else{//Si el usuario ya esta duplicado no dejamos que se dupliquen los datos
+            header("Location: crearContra.php?msg=duplicado");
             exit;
         }
     }
@@ -66,6 +86,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             </form>
         </section>
     </div>
+            <p>
+            <a href="./login.php">Iniciar sesión</a>
+        </p>
     <footer>
         <p>
             &copy; LEPIOLA.inc <br>

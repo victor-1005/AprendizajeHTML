@@ -1,4 +1,5 @@
 console.log("JS cargado");
+console.log("Js cargado de nuevo");
 //Creamos la fucion saludar
 function saludar(){
     let nombre= document.getElementById("txtNombre").value;
@@ -161,6 +162,18 @@ if (msgAct === "errorActualizar") {
         window.history.replaceState({}, document.title, "indexUsuario.php");
     });
 }
+if (msgAct === "yaTieneUsuario") {
+    Swal.fire({
+        title: "El usuario ya está registrado",
+        html: "Los datos no fueron guardados correctamente.\nEl consumidor ya posee un usuario registrado",
+        icon: "info",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "indexUsuario.php");
+    });
+}
 if (msgAct === "vacio") {
     Swal.fire({
         title: "¡ADVERTENCIA!",
@@ -175,7 +188,7 @@ if (msgAct === "vacio") {
 }
 
 //PARA CREAR USUARIOS Y CONTRASEÑAS
-const paramCrearContra= new URLSearchParams(Window.location.search);
+const paramCrearContra= new URLSearchParams(window.location.search);
 const msgCrearContra= paramCrearContra.get("msg");
 if (msgCrearContra === "contraOk") {
     Swal.fire({
@@ -189,11 +202,35 @@ if (msgCrearContra === "contraOk") {
         window.history.replaceState({}, document.title, "crearContra.php");
     });
 }
+if (msgCrearContra === "noEncontrado") {
+    Swal.fire({
+        title: "¡Cuenta no encontrada!",
+        html: "No se ah encontrado ningun registro con ese \"id\"",
+        icon: "info",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "crearContra.php");
+    });
+}
 if (msgCrearContra === "contraMal") {
     Swal.fire({
         title: "¡Ah ocurrido un error!",
         html: "Los datos no fueron guardados correctamente.",
         icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "crearContra.php");
+    });
+}
+if (msgCrearContra === "yaTieneUsuario") {
+    Swal.fire({
+        title: "El usuario ya está registrado",
+        html: "Los datos no fueron guardados correctamente.\nEl consumidor ya posee un usuario registrado",
+        icon: "info",
         confirmButtonText: "Aceptar",
         confirmButtonColor: "#3085d6"
     }).then(() => {

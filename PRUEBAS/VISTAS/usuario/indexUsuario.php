@@ -22,30 +22,70 @@ $resultado=$DatosUsuario->get_result();
 //    DE ESTA MANERA SE OBTIENE LOS VALORES EN FORMA DE ARRAY
 $datos=$resultado->fetch_assoc();
 
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-    //Obtenemos los datos del form
-    $nombre=$_POST['Nombre'];
-    $edad=$_POST['Edad'];
-    $email=$_POST['Email'];
-    $telefono=$_POST['NumTelefono'];
-    //Creamos una validación rapida
-    if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono)){
-        //PARA ACTUALIZAR LA INFORMACIÓN DEL CLIENTE
-        $queryActualizarDatos=$conexion->prepare("UPDATE usuarios SET nombre=?, edad=?, email=?, telefono=? Where id=?");
-        $queryActualizarDatos->bind_param("sissi",$nombre,$edad,$email,$telefono,$idUsuario);
-        //Ejecutamos la query
-        if($queryActualizarDatos->execute()){
-            header("Location: indexUsuario.php?msg=actualizado");
-            exit;
+//Obtenemos datos de la tabla rol
+$queryBuscarRol=$conexion->prepare("SELECT * FROM rol WHERE idUsuario=? LIMIT 1");
+$queryBuscarRol->bind_param("i",$idUsuario);
+$queryBuscarRol->execute();
+$resultadoRol=$queryBuscarRol->get_result();
+$datosRol=$resultadoRol->fetch_assoc();//Obtenemos los valores del usurio de la tabla rol
+
+if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset($_POST["accion"]) avisamos que podria haver acciones
+    //Y por ya que si no incluimos eso dara error porque aun no se envia el form, ya que este es modificado PORQUE HAY 2 FORMS
+
+    //ACTUALIZAR DATOS PERSONALES
+    if($_POST["accion"]=="personal"){
+        //Obtenemos los datos del form
+        $nombre=$_POST['Nombre'];
+        $edad=$_POST['Edad'];
+        $email=$_POST['Email'];
+        $telefono=$_POST['NumTelefono'];
+        //Creamos una validación rapida
+        if(!empty($nombre) && !empty($edad)&& !empty($email) && !empty($telefono)){
+            //PARA ACTUALIZAR LA INFORMACIÓN DEL CLIENTE
+            $queryActualizarDatos=$conexion->prepare("UPDATE usuarios SET nombre=?, edad=?, email=?, telefono=? Where id=?");
+            $queryActualizarDatos->bind_param("sissi",$nombre,$edad,$email,$telefono,$idUsuario);
+            //Ejecutamos la query
+            if($queryActualizarDatos->execute()){
+                header("Location: indexUsuario.php?msg=actualizado");
+                exit;
+            }else{
+                header("Location: indexUsuario.php?msg=errorActualizar");
+                exit;
+            }
         }else{
-            header("Location: indexUsuario.php?msg=errorActualizar");
+            header("Location: indexUsuario.php?msg=vacio");
             exit;
         }
-    }else{
-        header("Location=indexUsuario.php?msg=vacio");
-        exit;
     }
-}
+    //ACTUALIZAR ROL
+    if($_POST["accion"]=="rol"){
+        //Obtenemos la información del form
+        $usuario=$_POST['usuario'];
+        $conta=$_POST['contra'];
+        //encriptamos la contra
+        $contraEncriptada=password_hash($conta,PASSWORD_DEFAULT);
+        //Preparamos la query para validar que no hayan usuarios duplicados
+        $queyBuscarUsuario=$conexion->prepare("SELECT * FROM rol WHERE usuario=? LIMIT 1");
+        $queyBuscarUsuario->bind_param("s",$usuario);
+        $queyBuscarUsuario->execute();
+        $resultadoUsuario=$queyBuscarUsuario->get_result();
+        if($resultadoUsuario->num_rows==0){
+            //Preparamos la query para actualizar la info
+            $queryActaulizarRol=$conexion->prepare("UPDATE rol SET usuario=?, contra=? WHERE idUsuario=? ");
+            $queryActaulizarRol->bind_param("ssi",$usuario,$contraEncriptada,$idUsuario);
+            if($queryActaulizarRol->execute()){
+                header("Location: indexUsuario.php?msg=actualizado");
+                exit;
+            }else{
+                header("Location: indexUsuario.php?msg=errorActualizar");
+                exit;
+            }
+        }else{
+            header("Location: indexUsuario.php?msg=yaTieneUsuario");
+            exit;
+        }
+    }
+}//Fin del metodo $_SERVER["REQUEST_METHOOD"]=="POST"
 ?>
 
 <!DOCTYPE html>
@@ -73,12 +113,14 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 Su Edad es: <?= $datos["edad"] ?? "no registrada" ?><br>
                 Su correo es: <?= $datos["email"]?><br>
                 Su telefono es <?= $datos["telefono"] ?>
-
             </p>
         </section>
         <section>
             <h2>¿Desea cambiar algo de su información personal?</h2>
             <form action="indexUsuario.php" method="POST" class="Formulario">
+                <!--Para diferenciar los forms ya que hay mas de 1-->
+                <input type="hidden" name="accion" value="personal">
+
                 <label for="Nombre">ingresa tu nombre completo</label>
                 <input type="text" name="Nombre" id="txtNombres" placeholder="EJemplo: Victor Manuel" required>
         
@@ -97,6 +139,32 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 <label for="contra">Crea tu contraseña</label> -->
                 <!-- <input type="text" name="contra" placeholder="Ejemplo: 1234" required> -->
                 <button type="submit" id="btnEnviar">Ingresar</button>
+            </form>
+        </section>
+        <section>
+            <h2>¿Dese cambiar algo de su usuario?</h2>
+            <p>
+                Su usuario actual es: <?=$datosRol["usuario"]  ?> <br>
+            </p>
+            <form action="indexUsuario.php" method="POST" class="Formulario">
+                <!--Para diferenciar los forms ya que hay mas de 1-->
+                <input type="hidden" name="accion" value="rol">
+
+                <fieldset>
+                    <legend>Manter usuario </legend>
+                    <input type="radio" id="si" name="radUsuario" value="<?= $datosRol["usuario"] ?>">
+                    <label for="si">Si</label>
+                    <input type="radio" id="No" name="radUsuario" value=" ">
+                    <label for="No">No</label>
+                </fieldset>
+                <label for="usuario">Introdusca su nuevo usuario</label>
+                <input type="text" name="usuario" placeholder="Ejemplo: Vic005" required>
+
+                <label for="contra">Introdusca su nueva contraseña</label>
+                <input type="text" name="contra" placeholder="Ejemplo 1234" required>
+
+                <button type="submit" id="btnEnviar">Actualizar</button>
+                <a href="../../recuperarContra.php">¿Olvido su contraseña original?</a>
             </form>
         </section>
     </div>
