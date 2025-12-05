@@ -64,25 +64,48 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset
         $conta=$_POST['contra'];
         //encriptamos la contra
         $contraEncriptada=password_hash($conta,PASSWORD_DEFAULT);
-        //Preparamos la query para validar que no hayan usuarios duplicados
-        $queyBuscarUsuario=$conexion->prepare("SELECT * FROM rol WHERE usuario=? LIMIT 1");
-        $queyBuscarUsuario->bind_param("s",$usuario);
-        $queyBuscarUsuario->execute();
-        $resultadoUsuario=$queyBuscarUsuario->get_result();
-        if($resultadoUsuario->num_rows==0){
-            //Preparamos la query para actualizar la info
-            $queryActaulizarRol=$conexion->prepare("UPDATE rol SET usuario=?, contra=? WHERE idUsuario=? ");
-            $queryActaulizarRol->bind_param("ssi",$usuario,$contraEncriptada,$idUsuario);
-            if($queryActaulizarRol->execute()){
+
+        //Verificamos si el usuario marco usar el antiguo usuario
+        $mantener_usuario=isset($_POST['radUsuario']) ? $_POST['radUsuario']:'';
+        //        ^                            ^                 ^           ^
+        //  Variable destino              Condición          Si TRUE     Si FALSE
+
+        //La logica es que si nombre del usuario concide con  la bd entonces esta marcado
+        //Ya que el radButton devuelve lo del value, y se compara con el registrado
+
+        if($mantener_usuario==$datosRol["usuario"]){
+            //Preparamos la query para solo actualizar la contraseña
+            $queryActualizarContra=$conexion->prepare("UPDATE rol set contra=? WHERE idusuario=?");
+            $queryActualizarContra->bind_param("si",$contraEncriptada,$idUsuario);
+            if($queryActualizarContra->execute()){
                 header("Location: indexUsuario.php?msg=actualizado");
                 exit;
             }else{
                 header("Location: indexUsuario.php?msg=errorActualizar");
                 exit;
             }
+
         }else{
-            header("Location: indexUsuario.php?msg=yaTieneUsuario");
-            exit;
+            //Preparamos la query para validar que no hayan usuarios duplicados
+            $queyBuscarUsuario=$conexion->prepare("SELECT * FROM rol WHERE usuario=? LIMIT 1");
+            $queyBuscarUsuario->bind_param("s",$usuario);
+            $queyBuscarUsuario->execute();
+            $resultadoUsuario=$queyBuscarUsuario->get_result();
+            if($resultadoUsuario->num_rows==0){
+                //Preparamos la query para actualizar la info
+                $queryActaulizarRol=$conexion->prepare("UPDATE rol SET usuario=?, contra=? WHERE idUsuario=? ");
+                $queryActaulizarRol->bind_param("ssi",$usuario,$contraEncriptada,$idUsuario);
+                if($queryActaulizarRol->execute()){
+                    header("Location: indexUsuario.php?msg=actualizado");
+                    exit;
+                }else{
+                    header("Location: indexUsuario.php?msg=errorActualizar");
+                    exit;
+                }
+            }else{
+                header("Location: indexUsuario.php?msg=yaTieneUsuario");
+                exit;
+            }
         }
     }
 }//Fin del metodo $_SERVER["REQUEST_METHOOD"]=="POST"
@@ -118,6 +141,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset
         <section>
             <h2>¿Desea cambiar algo de su información personal?</h2>
             <form action="indexUsuario.php" method="POST" class="Formulario">
+
                 <!--Para diferenciar los forms ya que hay mas de 1-->
                 <input type="hidden" name="accion" value="personal">
 
@@ -143,22 +167,25 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset
         </section>
         <section>
             <h2>¿Dese cambiar algo de su usuario?</h2>
-            <p>
-                Su usuario actual es: <?=$datosRol["usuario"]  ?> <br>
-            </p>
+            
+            <label>
+                Su usuario actual es:
+                <label id="idUsuario_P"><?=$datosRol["usuario"]  ?></label><br>
+            </label>
             <form action="indexUsuario.php" method="POST" class="Formulario">
+                
                 <!--Para diferenciar los forms ya que hay mas de 1-->
                 <input type="hidden" name="accion" value="rol">
 
                 <fieldset>
                     <legend>Manter usuario </legend>
-                    <input type="radio" id="si" name="radUsuario" value="<?= $datosRol["usuario"] ?>">
+                    <input type="radio" id="si" name="radUsuario" value="<?= $datosRol["usuario"] ?>" >
                     <label for="si">Si</label>
-                    <input type="radio" id="No" name="radUsuario" value=" ">
+                    <input type="radio" id="No" name="radUsuario" value=" " checked>
                     <label for="No">No</label>
                 </fieldset>
                 <label for="usuario">Introdusca su nuevo usuario</label>
-                <input type="text" name="usuario" placeholder="Ejemplo: Vic005" required>
+                <input type="text" name="usuario" id="txtUsuario" placeholder="Ejemplo: Vic005" required>
 
                 <label for="contra">Introdusca su nueva contraseña</label>
                 <input type="text" name="contra" placeholder="Ejemplo 1234" required>
@@ -172,6 +199,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--Para los scripts-->
     <script src="../../js/eventos.js"></script>
+    <script src="../../js/usuarioEventos.js"></script>
     <footer>
         <p>
             &copy;LEPIOLA.inc. 
