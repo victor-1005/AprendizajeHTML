@@ -112,6 +112,13 @@ section{
     text-align: center;
     padding: 1%;
 }
+.Formulario label{
+    font-weight: bold;
+    color: black;
+}
+.Formulario fieldset{
+    color: black;
+}
 .Formulario button[type="submit"]{
     align-items: center;
     background-color: greenyellow;
