@@ -24,3 +24,19 @@ CREATE TABLE rol(
   ON DELETE CASCADE
   ON UPDATE CASCADE 
 );
+-- ========
+-- TABLA Vehiculo 
+-- ======== 
+CREATE TABLE vehiculo(
+  idVehiculo INT AUTO_INCREMENT PRIMARY KEY,
+  marca VARCHAR(50) NOT NULL,
+  modelo VARCHAR(50) NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  anio INT NOT NULL,
+  matricula VARCHAR(20) NOT NULL UNIQUE,
+  idUsuario INT NOT NULL,
+  CONSTRAINT fk_Vehiculo_Usuario FOREIGN  KEY (idUsuario)
+  REFERENCES usuarios(id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE 
+);

@@ -238,3 +238,43 @@ if (msgCrearContra === "yaTieneUsuario") {
         window.history.replaceState({}, document.title, "crearContra.php");
     });
 }
+
+//ALERTAS DE VEHICULOS
+const paramVehiculo= new URLSearchParams(window.location.search);
+const msgVehiculo=paramVehiculo.get("msg");
+if (msgVehiculo === "VehiculoRegistado") {
+    Swal.fire({
+        title: "El vehículo fue registrado",
+        html: "Los datos  fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
+if (msgVehiculo === "errorVehiculo") {
+    Swal.fire({
+        title: "El vehículo no fue registrado",
+        html: "Los datos  no fueron guardados correctamente.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
+if (msgVehiculo === "placaDuplicada") {
+    Swal.fire({
+        title: "El vehículo no fue registrado",
+        html: "ya existe un vehiculo registrado con esa placa\nIntente de nuevo con otra",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
