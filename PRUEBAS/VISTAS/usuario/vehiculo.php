@@ -142,6 +142,7 @@
                         <th>Tipo</th>
                         <th>año</th>
                         <th>Matricula</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -154,11 +155,15 @@
                                 <td><?=$fila['tipo']?></td>
                                 <td><?=$fila['anio']?></td>
                                 <td><?=$fila['matricula']?></td>
+                                <td>
+                                    <button type="button" class="Editar" id="Editar">Editar</button>
+                                    <button type="button" class="Eliminar" id="Eliminar">Eliminar</button>
+                                </td>
                             </tr>
                         <?php endwhile;?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6">No hay Vehiculos Registrados</td>
+                            <td colspan="7">No hay Vehiculos Registrados</td>
                         </tr>
                     <?php endif;?>
                 </tbody>
@@ -175,6 +180,7 @@
                     <input type="text" name="placaVehiculo" id="placaVehiculo" placeholder="Ejemplo: P3880588" required>
 
                     <button type="submit">Buscar</button>
+                    <a href="./editarVehiculo.php"><button type="button">Editar Vehiculos</button></a>
                 </form>
             </div>
             <aside id="RESULTADO_Vehiculo">

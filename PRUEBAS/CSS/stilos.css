@@ -96,6 +96,14 @@ input[type="button"]:hover, button:hover{
     background-color: white;
     color: blueviolet;
 }
+.Editar{
+    color: white;
+    background-color: green;
+}
+.Eliminar{
+    color: white;
+    background-color: red;
+}
 /*SECTIONS*/
 section{
     padding: 10%;
@@ -133,14 +141,16 @@ section{
 table {
     color: cadetblue;
     width: 80%;
-    margin: auto;
+    margin: 10px;
     border-collapse: collapse;
     margin-top: 20px;
 }
 th, td {
+    background: linear-gradient(0deg, black,gray);
     border: 1px solid #aaa;
     padding: 10px;
-    text-align: left;
+    color: violet;
+    text-align: center;
     }
 th {
      background: #eee;
