@@ -25,6 +25,8 @@
     $queryBuscarVehiculos->bind_param("i",$idUsuario);
     $queryBuscarVehiculos->execute();
     $resultadoVehiculos=$queryBuscarVehiculos->get_result();
+    // Inicializar variable para evitar errores
+    $ResultadoBuscarVehiculo2 = null;
 
     //PREPARAMOS PARA LOS FORMS 
     if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){
@@ -60,8 +62,33 @@
                     exit;
                 }
             }
-        }
+        }//Fin Registrar Vehiculo
 
+        //PARA BUSCAR UN VEHICULO
+        if($_POST["accion"]=="buscarVehiculo"){
+            //Tenemos los datos del form
+            $placa=$_POST['placaVehiculo'];
+
+
+            //preparamos la query para buscar el vehiculo
+            $querybuscarPlacaVehiculo=$conexion->prepare("SELECT * FROM vehiculo WHERE matricula=? LIMIT 1");
+            $querybuscarPlacaVehiculo->bind_param("s",$placa);
+            $querybuscarPlacaVehiculo->execute();
+            $resultadoPlaca=$querybuscarPlacaVehiculo->get_result();
+            if($resultadoPlaca->num_rows==0){
+                header("Location: vehiculo.php?msg=vehiculoNoEncontrado");
+                exit;
+            }else{
+                $queryBuscarVehiculos2=$conexion->prepare("SELECT * FROM vehiculo WHERE matricula=? LIMIT 1");
+                $queryBuscarVehiculos2->bind_param("s",$placa);
+                $queryBuscarVehiculos2->execute();
+                $ResultadoBuscarVehiculo2=$queryBuscarVehiculos2->get_result();
+                
+
+                
+            }
+            
+        }
     }
 ?>  
 <!--HTML-->
@@ -99,7 +126,7 @@
                 <input type="text" name="año" id="año" placeholder="Ejemplo: 1987" required>
 
                 <label for="matricula">Matricula del Vehiculo</label>
-                <input type="text" name="matricula" id="matricula" placeholder="Ejemplo: P388058" requided>
+                <input type="text" name="matricula" id="matricula" placeholder="Ejemplo: P388058" required>
 
                 <button type="submit">Registrar Vehiculo</button>
             </form>
@@ -136,6 +163,37 @@
                     <?php endif;?>
                 </tbody>
             </table>
+        </section>
+        <section class="div-aside">
+            <div class="main">
+                <h2>Desea cambiar infomación de algun vehiculo registrado?</h2>
+                <form action="vehiculo.php" method="POST" class="Formulario">
+
+                    <!--PARA DIFERENCIAR EL FORM-->
+                    <input type="hidden" name="accion" value="buscarVehiculo">
+                    <label for="placaVehiculo">ingrese la placa del vehiculo a cambiar</label>
+                    <input type="text" name="placaVehiculo" id="placaVehiculo" placeholder="Ejemplo: P3880588" required>
+
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <aside id="RESULTADO_Vehiculo">
+                    <!--Aca mostrara información de la placa-->
+                    <article>
+                        <?php if($ResultadoBuscarVehiculo2 !== null && $ResultadoBuscarVehiculo2->num_rows > 0): ?>
+                          <?php while($txtVehiculo=$ResultadoBuscarVehiculo2->fetch_assoc()):?>  
+                                Placa: <?=$txtVehiculo['matricula']?><br>
+                                Marca: <?=$txtVehiculo['marca']?><br>
+                                Modelo: <?=$txtVehiculo['modelo']?><br>
+                                Tipo: <?=$txtVehiculo['tipo']?><br>
+                                Año: <?=$txtVehiculo['anio']?><br>
+                          <?php endwhile; ?>
+                        <?php else: ?>
+                            Introdusca el numero de placa en el buscador.
+                        <?php endif;?>
+                    </article>
+                    
+            </aside>
         </section>
     </div>
     <footer>

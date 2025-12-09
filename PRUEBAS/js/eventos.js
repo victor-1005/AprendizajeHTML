@@ -278,3 +278,16 @@ if (msgVehiculo === "placaDuplicada") {
         window.history.replaceState({}, document.title, "vehiculo.php");
     });
 }
+if (msgVehiculo === "vehiculoNoEncontrado") {
+    Swal.fire({
+        title: "El vehiculo no fue encontrado",
+        html: "No existe un vehiculo registrado con esa placa\nIntente de nuevo con otra",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
+

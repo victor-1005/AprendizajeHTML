@@ -1,6 +1,7 @@
 @charset "UTF-8";
 *{
     padding: 0;
+    box-sizing: border-box ;
     margin: 0;
 }
 /*TITULOS*/
@@ -130,6 +131,7 @@ section{
 }
 /*PARA LAS TABLAS*/
 table {
+    color: cadetblue;
     width: 80%;
     margin: auto;
     border-collapse: collapse;
@@ -143,5 +145,28 @@ th, td {
 th {
      background: #eee;
      color: black;
+}
+
+/*PARA LOS DIVS DEL ASIDE*/
+.div-aside{
+    width: 100%;
+    display: flex;
+}
+.main{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    width: 70%;
+    height: 100%;
+    border: 1px solid white;
+}
+#RESULTADO_Vehiculo{
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 30%;
+    height: 100%;
+    border: 1px solid white;
 }
 
