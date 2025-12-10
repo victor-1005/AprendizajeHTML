@@ -156,7 +156,9 @@
                                 <td><?=$fila['anio']?></td>
                                 <td><?=$fila['matricula']?></td>
                                 <td>
-                                    <button type="button" class="Editar" id="Editar">Editar</button>
+                                            <!--AL COLOCAR ?id<=$fila['idVehiculo']?> se envia el id del vehiculo.
+                                            Si espacio para no tener problema-->
+                                    <a href="./editarVehiculo.php?id=<?=$fila['idVehiculo']?> "><button type="button" class="Editar" id="Editar">Editar</button></a>
                                     <button type="button" class="Eliminar" id="Eliminar">Eliminar</button>
                                 </td>
                             </tr>

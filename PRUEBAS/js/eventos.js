@@ -290,4 +290,28 @@ if (msgVehiculo === "vehiculoNoEncontrado") {
         window.history.replaceState({}, document.title, "vehiculo.php");
     });
 }
+if (msgVehiculo === "Actualizado") {
+    Swal.fire({
+        title: "El vehículo fue Actualizado",
+        html: "Los datos  fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
+if (msgVehiculo === "idInvalido") {
+    Swal.fire({
+        title: "ID vehiculo invalido.",
+        html: "datos Extraviados\n Puede asegurarse que la placa no este duplicada \n o seleccionar un vehiculo valido",
+        icon: "info",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "vehiculo.php");
+    });
+}
 
