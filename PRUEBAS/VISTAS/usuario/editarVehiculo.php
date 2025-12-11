@@ -180,7 +180,7 @@
                                 <td><?=$fila['matricula']?></td>
                                 <td>
                                     <a href="./editarVehiculo.php?id=<?= $fila["idVehiculo"] ?>"><button type="button" class="Editar" id="Editar">Editar</button></a>
-                                    <button type="button" class="Eliminar" id="Eliminar">Eliminar</button>
+                                    <a href="./editarVehiculo.php?id=<?= $fila["idVehiculo"]?>"><button type="button" class="Eliminar" id="Eliminar">Eliminar</button></a>
                                 </td>
                             </tr>
                         <?php endwhile;?>
