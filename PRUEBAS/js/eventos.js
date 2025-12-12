@@ -290,10 +290,22 @@ if (msgVehiculo === "vehiculoNoEncontrado") {
         window.history.replaceState({}, document.title, "vehiculo.php");
     });
 }
-if (msgVehiculo === "Actualizado") {
+if (msgVehiculo === "Actualizado") {//editarVehiculo
     Swal.fire({
         title: "El vehículo fue Actualizado",
         html: "Los datos  fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "editarVehiculo.php");
+    });
+}
+if (msgVehiculo === "eliminarVehiculo_editarVehiculo") {//editarVehiculo
+    Swal.fire({
+        title: "El vehículo fue Eliminado",
+        html: "Los datos  fueron Elminados correctamente.",
         icon: "success",
         confirmButtonText: "Aceptar",
         confirmButtonColor: "#3085d6"

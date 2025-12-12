@@ -49,3 +49,32 @@ if(radbuttonSiVEHICULO){
     document.getElementById("si_Vehiculo").addEventListener("click",mantenerPlaca);
     document.getElementById("no_Vehiculo").addEventListener("click",mantenerPlaca);
 }
+
+/*
+<!--EL FLUJO ES 1: ENVIAR EL ID AL JS (usuarioEventos.js) EL CUAL RECIBE LA INFO
+2: REDIRRECCIONA AL editarVehiculo DONDE ESTA PROGRAMADA LA FUNCION
+3: VALIDA LOS DATOS Y DESPUES DE ELIMIAR DEVUELVE AL vehiculo.php PORQUE NO EXISTE UN ID-->
+ */
+const btnElimiar = document.getElementById("Eliminar");
+if(btnElimiar){
+    //ConfirmarEliminacionvehiculo
+    function confirmarEliminacionVehiculo(idAutomotor) {
+        Swal.fire({
+            title: '¿Eliminar vehículo?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirige a la acción eliminar
+                window.location.href = `editarVehiculo.php?accion=eliminarVehiculo&id=${idAutomotor}`;
+            }
+        });
+    }
+    //Asignamos los valores de las funciones
+    // document.getElementById("Eliminar").addEventListener("click",confirmarEliminacionVehiculo);
+}

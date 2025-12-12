@@ -159,7 +159,11 @@
                                             <!--AL COLOCAR ?id<=$fila['idVehiculo']?> se envia el id del vehiculo.
                                             Si espacio para no tener problema-->
                                     <a href="./editarVehiculo.php?id=<?=$fila['idVehiculo']?> "><button type="button" class="Editar" id="Editar">Editar</button></a>
-                                    <button type="button" class="Eliminar" id="Eliminar">Eliminar</button>
+                                    <button type="button" class="Eliminar" id="Eliminar"
+                                    onclick="confirmarEliminacionVehiculo(<?= $fila['idVehiculo'] ?>)">Eliminar</button>
+                                    <!--EL FLUJO ES 1: ENVIAR EL ID AL JS (usuarioEventos.js) EL CUAL RECIBE LA INFO
+                                    2: REDIRRECCIONA AL editarVehiculo DONDE ESTA PROGRAMADA LA FUNCION
+                                    3: VALIDA LOS DATOS Y DESPUES DE ELIMIAR DEVUELVE AL vehiculo.php PORQUE NO EXISTE UN ID-->
                                 </td>
                             </tr>
                         <?php endwhile;?>
@@ -213,5 +217,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--PARA LOS SCRIPTS-->
     <script src="../../js/eventos.js"></script>
+    <script src="../../js/usuarioEventos.js"></script>
 </body>
 </html>

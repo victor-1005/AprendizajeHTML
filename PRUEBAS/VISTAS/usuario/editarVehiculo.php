@@ -27,7 +27,34 @@
         exit;
     }
     $idvehiculo = $_GET['id'];
-    
+
+    //PARA SAVER SI SE ELIMINARA EL VEHICULO
+    /*asi se hace por si se usan funciones de js, 
+    php entiende usar "accion" y verifica el mensaje "eliminarVehiculo"(viene del js)*/
+    if(isset($_GET["accion"]) && $_GET["accion"]==="eliminarVehiculo"){
+        //Verificamos si el vehiculo pertenece al usuairo
+        $queryVerificar=$conexion->prepare("SELECT idVehiculo FROM vehiculo WHERE idVehiculo=? AND idUsuario=?");
+        $queryVerificar->bind_param("ii",$idvehiculo,$idUsuario);
+        $queryVerificar->execute();
+        $resultadoVerificar=$queryVerificar->get_result();
+        if($resultadoVerificar->num_rows==0){
+            header("Location: vehiculo.php?msg=idInvalido");
+            exit;
+        }else{
+            //preparamos la query para elmiar ese vehiculo
+            $queryElminarVehiculo=$conexion->prepare("DELETE  FROM vehiculo WHERE idVehiculo=?");
+            $queryElminarVehiculo->bind_param("i",$idvehiculo);
+            if($queryElminarVehiculo->execute()){
+                //REDIRIGIMOS AL vehiculo.php YA QUE NO EXISTE EL ID DEL VEHICULO
+                header("Location: vehiculo.php?msg=eliminarVehiculo_editarVehiculo");
+                exit;
+            }else{
+                //REDIRIGIMOS AL vehiculo.php YA QUE NO EXISTE EL ID DEL VEHICULO
+                header("Location: vehiculo.php?msg=error");
+                exit;
+            }
+        } 
+    }
 
 
     //Obtenemos los datos de ese vehiculo
@@ -80,7 +107,7 @@
             }else{
                 //Una vez que la placa no este duplicada actualizamos los datos
                 $queryActualizarVehiculo=$conexion->prepare("UPDATE vehiculo SET marca=?, modelo=?, tipo=?, anio=?, matricula=? WHERE idVehiculo=?");
-                $queryActualizarVehiculo->bind_param("sssisi",$marca,$modelo,$tipo,$año,$matricula,$idvehiculo);
+                $queryActualizarVehiculo->bind_param("sssisi",$marca,$modelo,$tipo,$año,$matricula,$idVehiculo);
                 if($queryActualizarVehiculo->execute()){
                     header("Location: editarVehiculo.php?id=$idVehiculo&msg=Actualizado");
                     exit;
@@ -180,7 +207,11 @@
                                 <td><?=$fila['matricula']?></td>
                                 <td>
                                     <a href="./editarVehiculo.php?id=<?= $fila["idVehiculo"] ?>"><button type="button" class="Editar" id="Editar">Editar</button></a>
-                                    <a href="./editarVehiculo.php?id=<?= $fila["idVehiculo"]?>"><button type="button" class="Eliminar" id="Eliminar">Eliminar</button></a>
+                                    <button type="button" class="Eliminar" id="Eliminar"
+                                    onclick="confirmarEliminacionVehiculo(<?= $fila['idVehiculo'] ?>)">Eliminar</button>
+                                    <!--EL FLUJO ES 1: ENVIAR EL ID AL JS (usuarioEventos.js) EL CUAL RECIBE LA INFO
+                                    2: REDIRRECCIONA AL editarVehiculo DONDE ESTA PROGRAMADA LA FUNCION
+                                    3: VALIDA LOS DATOS Y DESPUES DE ELIMIAR DEVUELVE AL vehiculo.php PORQUE NO EXISTE UN ID-->
                                 </td>
                             </tr>
                         <?php endwhile;?>
