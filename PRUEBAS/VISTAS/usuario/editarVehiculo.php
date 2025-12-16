@@ -136,6 +136,7 @@
     <div class="Contenedor">
         <a href="./indexUsuario.php"><button type="button">Regresar al mi index</button></a>
         <a href="./vehiculo.php"><button type="button">Registrar un  vehiculo</button></a>
+        <a href="./tareasVehiculo.php"><button type="button">Agregar un Servicio</button></a>
         <section>
             <label>
                 DATOS DEL VEHICULO <br>

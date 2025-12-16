@@ -127,6 +127,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){//Con && isset
         <a href="../../logout.php"><button type="button">Cerrar sesión</button></a>
         <a href="./vehiculo.php"><button type="button">Ver mis vehiculos</button></a>
         <a href="./editarVehiculo.php"><button type="button">Editar Vehiculos</button></a>
+        <a href="./tareasVehiculo.php"><button type="button">Agregar un Servicio</button></a>
         <section>
             <h2>
                 Bienvenido <?= $_SESSION["usuario"]; ?> 
