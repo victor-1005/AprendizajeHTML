@@ -40,3 +40,36 @@ CREATE TABLE vehiculo(
   ON DELETE CASCADE
   ON UPDATE CASCADE 
 );
+-- ============================
+--  TABLA PRESTACIONES
+-- ============================
+CREATE TABLE prestaciones (
+    idPrestaciones INT AUTO_INCREMENT PRIMARY KEY,
+    nombrePrestacion VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
+    costo DECIMAL(10,2) NOT NULL
+);
+-- ======
+-- TABLA TAREA
+-- ======
+CREATE TABLE tarea(
+  idServicio int AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(250) NOT NULL,
+  precio FLOAT NOT NULL,
+  fecha DATE NOT NULL,
+  estado ENUM('pendiente','en proceso','finalizada','cancelada') DEFAULT 'pendiente',
+  idPrestaciones int NOT NULL,
+  idVehiculo int NOT NULL,
+  CONSTRAINT fk_tarea_prestaciones FOREIGN KEY (idPrestaciones)
+  REFERENCES prestaciones(idPrestaciones),
+  CONSTRAINT fk_tarea_vehiculo FOREIGN KEY (idVehiculo)
+  REFERENCES vehiculo(idVehiculo)
+);
+
+/*
+INSERSION DE PRIMEROS DATOS DE LA TABLA PRESTACIONES
+*/
+insert into prestaciones (nombrePrestacion,descripcion,costo)
+values ("Cambio de aceite","Se cambia el aceite, filtro de aceite etc.",35);
+INSERT INTO prestaciones (nombrePrestacion, descripcion, costo) 
+values('Cambio de Bujias','Se cambia las bujias y se limpian los contenedores',20);

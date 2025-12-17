@@ -326,4 +326,54 @@ if (msgVehiculo === "idInvalido") {
         window.history.replaceState({}, document.title, "vehiculo.php");
     });
 }
-
+//ALERTAS TAREAS O PRESTACIONES
+const paramTarea= new URLSearchParams(window.location.search);
+const msgTarea=paramTarea.get("msg");
+if (msgVehiculo === "vehiculoNoSeEncontro") {
+    Swal.fire({
+        title: "El vehiculo no fue encontrado",
+        html: "No existe un vehiculo registrado con esa placa\nIntente de nuevo con otra",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
+if (msgVehiculo === "errorPrestacion") {
+    Swal.fire({
+        title: "El Servicio no fue encontrado",
+        html: "No existe o no esta disponible el servicio seleccionado\nIntente de nuevo con otra",
+        icon: "Error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
+if (msgVehiculo === "TareaRegistrada") {
+    Swal.fire({
+        title: "Se Registro el Servicio",
+        html: "El servicio se registro correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
+if (msgVehiculo === "TareaError") {
+    Swal.fire({
+        title: "El Servicio no fue Registrado",
+        html: "No se Registro el servicio\nIntente de nuevo con otra",
+        icon: "Error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
