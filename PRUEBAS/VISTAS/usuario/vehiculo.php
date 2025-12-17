@@ -107,6 +107,7 @@
     <div class="Contenedor">
         <a href="./indexUsuario.php"><button type="button">Regresar al index usuario</button></a>
         <a href="../../logout.php"><button type="button">Cerrar sesión</button></a>
+        <a href="./tareasVehiculo.php"><button type="button">Agregar un servicio</button></a>
         <section>
             <h2>QUIERE REGISTRAR UN VEHICULO?</h2>
             <form action="vehiculo.php" class="Formulario" method="POST">

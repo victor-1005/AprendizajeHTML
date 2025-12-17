@@ -341,6 +341,18 @@ if (msgVehiculo === "vehiculoNoSeEncontro") {
         window.history.replaceState({}, document.title, "tareasVehiculo.php");
     });
 }
+if (msgVehiculo === "PermisoVehiculoNegado") {
+    Swal.fire({
+        title: "No se registro ningun Servicio",
+        html: "El vehiculo no es tuyo, \nIntente de nuevo con sus vehiculos registrados",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
 if (msgVehiculo === "errorPrestacion") {
     Swal.fire({
         title: "El Servicio no fue encontrado",

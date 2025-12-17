@@ -26,6 +26,24 @@
         $servicios[]=$fila;
     }
 
+    //Creamos una consulta para los vehiculos registrados con servicios 
+    $queryListarVehiculos=$conexion->prepare("SELECT tarea.idServicio,
+    vehiculo.marca,
+    vehiculo.matricula,
+    tarea.nombre,
+    tarea.fecha,
+    tarea.precio,
+    tarea.estado
+    FROM tarea INNER JOIN vehiculo ON vehiculo.idVehiculo=tarea.idVehiculo 
+    INNER JOIN usuarios ON usuarios.id=vehiculo.idUsuario WHERE  usuarios.id=?");
+    $queryListarVehiculos->bind_param("i",$idUsuario);
+    $queryListarVehiculos->execute();
+    $resultadoVehiculoTarea=$queryListarVehiculos->get_result();
+    $DatosVehiculoTarea=[];//Guardamos los valores en un array por si necesitamos listar los valores
+    while($f=$resultadoVehiculoTarea->fetch_assoc()){
+        $DatosVehiculoTarea[]=$f;
+    }
+
     //NOS PREPARAMOS PARA AGREGAR UN SERVICIO
     if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["accion"])){
         //Para saber si se registro manualmente
@@ -56,23 +74,33 @@
                     header("Location: tareasVehiculo.php?msg=errorPrestacion");
                     exit;
                 }else{
-                    //Recuperamos los datos de la prestacion
-                    $DatosPrestacion=$ResultadoPrestaciones->fetch_assoc();
-                    $nombre=$DatosPrestacion['nombrePrestacion'];
-                    $descripcion=$DatosPrestacion['descripcion'];
-                    $costo=$DatosPrestacion['costo'];
-                    $estado="pendiente";
-
-                    //Ahora con ese id registrmos en la tabla tarea
-                    $queryInsertarTarea=$conexion->prepare("INSERT INTO tarea (nombre, precio, fecha, estado, idPrestaciones, idVehiculo)
-                    VALUES (?,?,?,?,?,?)");
-                    $queryInsertarTarea->bind_param("sdssii",$nombre,$costo,$fecha,$estado,$idPrestaciones,$idPlaca);
-                    if($queryInsertarTarea->execute()){
-                        header("Location: tareasVehiculo.php?msg=TareaRegistrada");
-                        exit;
+                    //Ahora validamos que el id del vehiculo sea del usuario
+                    $queryBuscarIdUsuarioPlaca=$conexion->prepare("SELECT * FROM vehiculo WHERE idVehiculo=? AND idUsuario=? ");
+                    $queryBuscarIdUsuarioPlaca->bind_param("ii",$idPlaca,$idUsuario);
+                    $queryBuscarIdUsuarioPlaca->execute();
+                    $resultadoidUsuarioPlaca=$queryBuscarIdUsuarioPlaca->get_result();
+                    if($resultadoidUsuarioPlaca->num_rows==0){
+                        header("Location: tareasVehiculo.php?msg=PermisoVehiculoNegado");
+                        exit();
                     }else{
-                        header("Location: tareasVehiculo.php?msg=TareaError");
-                        exit;
+                        //Recuperamos los datos de la prestacion
+                        $DatosPrestacion=$ResultadoPrestaciones->fetch_assoc();
+                        $nombre=$DatosPrestacion['nombrePrestacion'];
+                        $descripcion=$DatosPrestacion['descripcion'];
+                        $costo=$DatosPrestacion['costo'];
+                        $estado="pendiente";
+
+                        //Ahora con ese id registrmos en la tabla tarea
+                        $queryInsertarTarea=$conexion->prepare("INSERT INTO tarea (nombre, precio, fecha, estado, idPrestaciones, idVehiculo)
+                        VALUES (?,?,?,?,?,?)");
+                        $queryInsertarTarea->bind_param("sdssii",$nombre,$costo,$fecha,$estado,$idPrestaciones,$idPlaca);
+                        if($queryInsertarTarea->execute()){
+                            header("Location: tareasVehiculo.php?msg=TareaRegistrada");
+                            exit;
+                        }else{
+                            header("Location: tareasVehiculo.php?msg=TareaError");
+                            exit;
+                        }
                     }
                 }
             }
@@ -95,6 +123,7 @@
     <header>
     <div class="Contenedor">
         <a href="./indexUsuario.php"><button type="button">Regresar al index usuario</button></a>
+        <a href="./vehiculo.php"><button type="button">Ver Mis Vehiculos</button></a>
         <a href="../../logout.php"><button type="button">Cerrar sesión</button></a>
         <section>
             <h2>Servicios disponibles</h2>
@@ -147,6 +176,41 @@
                 <input type="date" name="fecha"required>
                 <button type="submit">Registrar</button>
             </form>
+        </section>
+        <section>
+            <h2>Vehiculos con servicios programados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>idServicio</th>
+                        <th>Vehiculo</th>
+                        <th>Matricula</th>
+                        <th>Nombre del Servicio</th>
+                        <th>Fecha programada</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(count($DatosVehiculoTarea)>0):?>
+                        <?php foreach($DatosVehiculoTarea as $fila3):?>
+                            <tr>
+                                <td><?= $fila3['idServicio']?></td>
+                                <td><?= $fila3['marca']?></td>
+                                <td><?= $fila3['matricula']?></td>
+                                <td><?= $fila3['nombre']?></td>
+                                <td><?= $fila3['fecha']?></td>
+                                <td>$<?= $fila3['precio']?></td>
+                                <td><?= $fila3['estado']?></td>
+                            </tr>
+                        <?php endforeach?>
+                    <?php else:?>
+                        <tr>
+                            <td colspan="7"> No hay vehiculos con servicios registrados</td>
+                        </tr>
+                    <?php endif?>
+                </tbody>
+            </table>
         </section>
     </div>
      <!--PARA ALERTAS-->
