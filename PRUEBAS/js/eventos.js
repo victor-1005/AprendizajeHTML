@@ -1,3 +1,4 @@
+eventos.js
 console.log("JS cargado");
 console.log("Js cargado de nuevo");
 //Creamos la fucion saludar
@@ -381,6 +382,18 @@ if (msgVehiculo === "TareaError") {
     Swal.fire({
         title: "El Servicio no fue Registrado",
         html: "No se Registro el servicio\nIntente de nuevo con otra",
+        icon: "Error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
+if (msgVehiculo === "idServicioNovalido") {
+    Swal.fire({
+        title: "Id Servicio extraviado",
+        html: "datos Extraviados, Seleccione un servicio o prestacion valida",
         icon: "Error",
         confirmButtonText: "Aceptar",
         confirmButtonColor: "#3085d6"

@@ -1,3 +1,4 @@
+console.log("Js UsuarioEventos.js Cargado");
 //PARA VALIDAR QUE EXISTAN LOS OBJETOS CUANDO SE LLAMEN
 const radsiUSUARIO= document.getElementById("si");
 if(radsiUSUARIO){
@@ -77,4 +78,31 @@ if(btnElimiar){
     }
     //Asignamos los valores de las funciones
     // document.getElementById("Eliminar").addEventListener("click",confirmarEliminacionVehiculo);
+}
+
+//PARA CANCELAR EL SERVICIO O PRESTACION O LA TAREA....
+/*EL FLUJO ES 1: ENVIAR EL ID AL JS (usuarioEventos.js) EL CUAL RECIBE LA INFO
+2: REDIRRECCIONA AL EdicionTarea DONDE ESTA PROGRAMADA LA FUNCION
+3:CANCELA EL SERVICIO Y REDIRECCIONA A tareasVehiculo.php ya que es donde se genero la funcion--> */
+const btnCancelarServicio=document.getElementById("Cancelar");
+if(btnCancelarServicio){
+   
+    //ConfirmarEliminacionvehiculo
+    function confirmarCancelarServicio(idServicio) {
+        Swal.fire({
+            title: '¿Cancelar Servicio?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, Cancelar',
+            cancelButtonText: 'Regresar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirige a la acción eliminar
+                window.location.href = `EdicionTarea.php?accion=eliminarServicio&id=${idServicio}`;
+            }
+        });
+    }
 }
