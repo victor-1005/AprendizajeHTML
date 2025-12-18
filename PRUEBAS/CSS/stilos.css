@@ -104,6 +104,13 @@ input[type="button"]:hover, button:hover{
     color: white;
     background-color: red;
 }
+.Cancelar{
+    color: white;
+    background: linear-gradient(0deg, red, black);
+}
+.Cancelar:hover{
+    color: whitesmoke;
+}
 /*SECTIONS*/
 section{
     padding: 10%;

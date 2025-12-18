@@ -16,6 +16,7 @@
     //Traemos los datos del usuario
     $idUsuario=$_SESSION["idUsuario"];
     
+    
     //Preparamos una consulta para traer los servicios registrados en la bd
     $queryListarServicios=$conexion->prepare("SELECT * FROM prestaciones");
     $queryListarServicios->execute();
@@ -189,6 +190,7 @@
                         <th>Fecha programada</th>
                         <th>Costo</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,6 +204,13 @@
                                 <td><?= $fila3['fecha']?></td>
                                 <td>$<?= $fila3['precio']?></td>
                                 <td><?= $fila3['estado']?></td>
+                                <td>
+                                    <button type="button" class="Cancelar" id="Cancelar"
+                                    onclick="confirmarCancelarServicio(<?= $fila3['idServicio']?>)">Cancelar</button>
+                                    <!--EL FLUJO ES 1: ENVIAR EL ID AL JS (usuarioEventos.js) EL CUAL RECIBE LA INFO
+                                    2: REDIRRECCIONA AL EdicionTarea DONDE ESTA PROGRAMADA LA FUNCION
+                                    3:CANCELA EL SERVICIO Y REDIRECCIONA A tareasVehiculo.php ya que es donde se genero la funcion-->
+                                </td>
                             </tr>
                         <?php endforeach?>
                     <?php else:?>
@@ -217,5 +226,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--PARA LOS EVENTOS-->
     <script src="../../js/eventos.js"></script>
+    <script src="../../js/usuarioEventos.js"></script>
 </body>
 </html>
