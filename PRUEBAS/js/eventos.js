@@ -1,4 +1,3 @@
-eventos.js
 console.log("JS cargado");
 console.log("Js cargado de nuevo");
 //Creamos la fucion saludar
