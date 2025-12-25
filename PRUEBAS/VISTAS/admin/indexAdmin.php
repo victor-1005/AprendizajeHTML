@@ -36,6 +36,8 @@
         </h1>
     </header>
     <div class="Contenedor">
+        <a href="./A_verUsuarios.php"><button type="button">Ver Usuarios Registrados</button></a>
+        <a href="../../logout.php"><button type="button">Cerrar sesión</button></a>
         <section>
             <article>
                 Hola <?= $DatosAdmin['usuario']?>
