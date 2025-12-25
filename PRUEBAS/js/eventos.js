@@ -401,3 +401,15 @@ if (msgVehiculo === "idServicioNovalido") {
         window.history.replaceState({}, document.title, "tareasVehiculo.php");
     });
 }
+if (msgVehiculo === "servicioCancelado") {
+    Swal.fire({
+        title: "Servicio Cancelado",
+        html: "El servicio fue cancelado",
+        icon: "info",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "tareasVehiculo.php");
+    });
+}
