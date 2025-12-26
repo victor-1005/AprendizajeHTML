@@ -61,7 +61,9 @@
                                 <td><?= $fila['email'] ?></td>
                                 <td><?= $fila['telefono'] ?></td>
                                 <td>
-                                    <button type="button" class="Editar">Modificar</button>
+                                    <a href="./A_editarUsuario.php?id=<?= $fila['id'] ?>">
+                                        <button type="button" class="Editar">Modificar</button>
+                                    </a>
                                     <button type="button" class="Eliminar">Eliminar </button>
                                 </td>
                             </tr>
@@ -75,5 +77,9 @@
             </table>
         </section>
     </div>
+    <!--PARA ALERTAS-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--PARA LOS EVENTOS-->
+    <script src="../../js/eventos.js"></script>
 </body>
 </html>

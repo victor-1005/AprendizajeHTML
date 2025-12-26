@@ -413,3 +413,33 @@ if (msgVehiculo === "servicioCancelado") {
         window.history.replaceState({}, document.title, "tareasVehiculo.php");
     });
 }
+
+//PARA ADMINISTRADOR a
+
+//alertas edición usuario
+const A_editarUsuario= new URLSearchParams(window.location.search);
+const msgA_editarusuario= A_editarUsuario.get("msg");
+if (msgA_editarusuario === "UsuarioActualizado") {
+    Swal.fire({
+        title: "¡Registro Actualizado!",
+        html: "Los datos fueron guardados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "A_verUsuarios.php");
+    });
+}
+if (msgA_editarusuario === "Error") {
+    Swal.fire({
+        title: "¡Error!",
+        html: "Los datos fueron NO guardados correctamente.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "red"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "A_verUsuarios.php");
+    });
+}

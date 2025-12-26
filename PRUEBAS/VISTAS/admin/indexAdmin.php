@@ -2,7 +2,7 @@
  <?php
     session_start();
     if(!isset($_SESSION['usuario'])){
-        header("Location: ../.php?error=sesion");
+        header("Location: ../../login.php?error=sesion");
         exit;
     }
     //Evitar volver atrás después del logout
@@ -44,5 +44,7 @@
             </article>
         </section>
     </div>
+    <!--PARA LOS EVENTOS-->
+    <script src="../../js/eventos.js"></script>
 </body>
 </html>
