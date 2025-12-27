@@ -30,7 +30,7 @@
 
     //PARA SABER SI SE ELIMINA EL USUARIO
     /*asi se hace por si se usan funciones de js, 
-    php entiende usar "accion" y verifica el mensaje "eliminarUsuario"(viene del js)*/
+    php entiende usar "accion" y verifica el mensaje "eliminarUsuario"(viene del adminEventos.js)*/
     if(isset($_GET["accion"]) && $_GET["accion"]==="eliminarUsuario"){
         //preparamos la query para buscar la query
         $querybuscaridUsuario=$conexion->prepare("SELECT * FROM usuarios WHERE id=?");
