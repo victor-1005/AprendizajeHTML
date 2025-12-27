@@ -443,3 +443,15 @@ if (msgA_editarusuario === "Error") {
         window.history.replaceState({}, document.title, "A_verUsuarios.php");
     });
 }
+if (msgA_editarusuario === "UsuarioEliminado") {//editarUsuario.php
+    Swal.fire({
+        title: "El Usuario fue Eliminado",
+        html: "Los datos  fueron Elminados correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6"
+    }).then(() => {
+        // quitar el parámetro de la URL sin recargar
+        window.history.replaceState({}, document.title, "A_verUsuarios.php");
+    });
+}

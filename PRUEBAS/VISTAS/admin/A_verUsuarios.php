@@ -64,7 +64,11 @@
                                     <a href="./A_editarUsuario.php?id=<?= $fila['id'] ?>">
                                         <button type="button" class="Editar">Modificar</button>
                                     </a>
-                                    <button type="button" class="Eliminar">Eliminar </button>
+                                    <button type="button" class="Eliminar" id="Eliminar"
+                                    onclick="confirmarEliminarUsuario(<?= $fila['id']?>)">Eliminar </button>
+                                    <!--EL FLUJO ES 1: ENVIAR EL ID AL JS (adminEventos.js) EL CUAL RECIBE LA INFO
+                                    2: REDIRRECCIONA AL A_editarUsuario.php DONDE ESTA PROGRAMADA LA FUNCION
+                                    3: VALIDA LOS DATOS Y DESPUES DE ELIMIAR DEVUELVE ALA_verUsuarios.php PORQUE NO EXISTE UN ID-->
                                 </td>
                             </tr>
                         <?php endforeach;?>
@@ -81,5 +85,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--PARA LOS EVENTOS-->
     <script src="../../js/eventos.js"></script>
+    <script src="../../js/adminEventos.js"></script>
 </body>
 </html>

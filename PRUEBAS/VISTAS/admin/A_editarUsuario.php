@@ -32,8 +32,32 @@
     /*asi se hace por si se usan funciones de js, 
     php entiende usar "accion" y verifica el mensaje "eliminarUsuario"(viene del js)*/
     if(isset($_GET["accion"]) && $_GET["accion"]==="eliminarUsuario"){
-
+        //preparamos la query para buscar la query
+        $querybuscaridUsuario=$conexion->prepare("SELECT * FROM usuarios WHERE id=?");
+        $querybuscaridUsuario->bind_param("i",$idUsuario);
+        $querybuscaridUsuario->execute();
+        $resultadoBuscarIdUsuario=$querybuscaridUsuario->get_result();
+        if($resultadoBuscarIdUsuario->num_rows==0){
+            header("Location: A_editarUsuario.php?msg=errorID");
+            exit;
+        }else{
+            //Preparamos la query para eliminar el usuario
+            $queryEliminarUsuario=$conexion->prepare("DELETE FROM usuarios WHERE id=?");
+            $queryEliminarUsuario->bind_param("i",$idUsuario);
+            if($queryEliminarUsuario->execute()){
+                //REDIRIGIMOS AL A_verUsuario.php YA QUE NO EXISTE EL ID DEL Usuario
+                header("Location: A_verUsuarios.php?msg=UsuarioEliminado");
+                exit();
+            }else{
+                //REDIRIGIMOS AL A_verUsuario.php YA QUE NO EXISTE EL ID DEL Usuario
+                header("Location: A_verUsuarios.php?msg=error");
+                exit();
+            }
+            
+        }
     }//Fin eliminar Usuario
+
+
     if($_SERVER["REQUEST_METHOD"]=="POST"){//Para actualizar la información
         //Declaramos los valores que vienen del form
         $id=$_POST['idUsuario'];
@@ -98,5 +122,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--PARA LOS EVENTOS-->
     <script src="../../js/eventos.js"></script>
+    <script src="../../js/adminEventos.js"></script>
 </body>
 </html>

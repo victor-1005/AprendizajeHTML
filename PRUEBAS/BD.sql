@@ -60,10 +60,16 @@ CREATE TABLE tarea(
   estado ENUM('pendiente','en proceso','finalizada','cancelada') DEFAULT 'pendiente',
   idPrestaciones int NOT NULL,
   idVehiculo int NOT NULL,
+  -- Cascada para cuando se elimine una prestación
   CONSTRAINT fk_tarea_prestaciones FOREIGN KEY (idPrestaciones)
   REFERENCES prestaciones(idPrestaciones),
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  -- Cascada para cuando se elimine un vehículo (y por ende un usuario)
   CONSTRAINT fk_tarea_vehiculo FOREIGN KEY (idVehiculo)
   REFERENCES vehiculo(idVehiculo)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE 
 );
 
 /*
