@@ -39,6 +39,7 @@
         <a href="./A_verUsuarios.php"><button type="button">Ver Usuarios Registrados</button></a>
         <a href="../../logout.php"><button type="button">Cerrar sesión</button></a>
         <a href="./verVehiculos.php"> <button type="button">Ver Vehiculos Registrados</button></a>
+        <a href="./EstiloVehiculo.php"><button type="button">Ver Estilos de vehiculos</button></a>
         <section>
             <article>
                 Hola <?= $DatosAdmin['usuario']?>

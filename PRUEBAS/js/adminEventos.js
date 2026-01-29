@@ -25,3 +25,36 @@ if(btnEliminar){
         });
     }
 }
+
+/*PARA PODER USAR LA FUNCION DE DRGABLE PARA APRENDER A USAR JS DE ARRASTRE Y SUELTA*/
+const zona= document.getElementById("Zona");
+if(zona){
+    //Creamos la otra constante que es llanta 1 de prueba
+    const llanta_1= document.getElementById("llanta_1");
+    const zona2= document.getElementById("Zona2");
+    
+    //Cuando se empieza a arrastrase la llanta_1
+    llanta_1.addEventListener("dragstart", function (e){
+        e.dataTransfer.setData("text",e.target.id);
+    });
+
+    //Para permitir soltar
+    zona.addEventListener("dragover",function (e){
+        e.preventDefault();
+    });
+
+    //Al Soltar
+    zona.addEventListener("drop", function(e){
+        e.preventDefault();
+        const id=e.dataTransfer.getData("text");
+        const elemento = document.getElementById(id);
+        zona.appendChild(elemento);
+    });
+    // //Al regresar el elemento a la zona2 incialmente
+    // zona2.addEventListener("drop", function(e){
+    //     e.preventDefault();
+    //     const id2=e.dataTransfer.getData("text");
+    //     const elemento2 = document.getElementById(id2);
+    //     zona2.appendChild(elemento2);
+    // });
+}

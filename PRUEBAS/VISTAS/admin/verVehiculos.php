@@ -34,6 +34,7 @@
     <header>
         <h1>Vehiculos en el sistema</h1>
     </header>
+    <a href="./indexAdmin.php"><button>Regresar al index</button></a>
     <div class="Contenedor">
         <section>
             <h1>Listado de vehiculos</h1>
