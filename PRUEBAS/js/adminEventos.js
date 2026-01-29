@@ -31,6 +31,8 @@ const zona= document.getElementById("Zona");
 if(zona){
     //Creamos la otra constante que es llanta 1 de prueba
     const llanta_1= document.getElementById("llanta_1");
+    const llanta_2= document.getElementById("llanta_2");
+    const chasis= document.getElementById("chasis");
     const zona2= document.getElementById("Zona2");
     
     //Cuando se empieza a arrastrase la llanta_1
@@ -50,11 +52,27 @@ if(zona){
         const elemento = document.getElementById(id);
         zona.appendChild(elemento);
     });
-    // //Al regresar el elemento a la zona2 incialmente
-    // zona2.addEventListener("drop", function(e){
-    //     e.preventDefault();
-    //     const id2=e.dataTransfer.getData("text");
-    //     const elemento2 = document.getElementById(id2);
-    //     zona2.appendChild(elemento2);
-    // });
+
+
+    //Al regresar el elemento a la zona2 incialmente
+    //Para permitir soltar
+    llanta_2.addEventListener("dragstart", function (e){
+        e.dataTransfer.setData("text",e.target.id);//id es nombre temporal el cual agarra el id orignal
+    });
+    chasis.addEventListener("dragstart", function (e){
+        e.dataTransfer.setData("text",e.target.id);
+    });
+
+    zona2.addEventListener("dragover",function (e){
+        e.preventDefault();
+    });
+
+    //Al Soltar
+    zona2.addEventListener("drop", function(e){
+        e.preventDefault();
+        const id2=e.dataTransfer.getData("text");
+        const elemento2 = document.getElementById(id2);
+        zona2.appendChild(elemento2);
+    });
+
 }

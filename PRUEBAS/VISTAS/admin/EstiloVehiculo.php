@@ -23,13 +23,16 @@
                 <div class="llanta_1" id="llanta_1" draggable="true">
                     
                 </div>
+                <div class="chasis" id="chasis" draggable="true"></div>
             </div>
         </section>
         <section>
             <h2>Soltar los items aqui</h2>
             <article>
                 <div id="Zona" class="Zona">
+                    <div class="llanta_2" id="llanta_2" draggable="true">
                     
+                </div>
                 </div>
             </article>
         </section>
